@@ -1,14 +1,6 @@
-const cities = [
-    {name:"Den Haag", id:"denhaag", query:"Den+Haag"},
-    {name:"Pijnacker", id:"pijnacker", query:"Pijnacker"},
-    {name:"Delft", id:"delft", query:"Delft"},
-    {name:"Rijswijk", id:"rijswijk", query:"Rijswijk"},
-    {name:"Schiphol Airport", id:"schiphol", query:"Schiphol"},
-    {name:"Rotterdam Airport", id:"rotterdam", query:"Rotterdam+Airport"}
-];
-
-async function getWeather(location, ids){
-    try{
+// Weer data voor meters
+async function getWeather(location, ids) {
+    try {
         const temp = await fetch(`https://wttr.in/${location}?format=%t`).then(r=>r.text());
         const feels = await fetch(`https://wttr.in/${location}?format=%f`).then(r=>r.text());
         const precip = await fetch(`https://wttr.in/${location}?format=%p`).then(r=>r.text());
@@ -18,16 +10,16 @@ async function getWeather(location, ids){
         const uv = await fetch(`https://wttr.in/${location}?format=%U`).then(r=>r.text());
         const cond = await fetch(`https://wttr.in/${location}?format=%C`).then(r=>r.text());
 
-        const card = document.getElementById(ids.card);
-        document.getElementById(ids.temp).innerText=temp;
-        document.getElementById(ids.feels).innerText=feels;
-        document.getElementById(ids.precip).innerText=precip;
-        document.getElementById(ids.wind).innerText=wind;
-        document.getElementById(ids.humidity).innerText=humidity;
-        document.getElementById(ids.sun).innerText=sun;
-        document.getElementById(ids.uv).innerText="UV "+uv;
-        document.getElementById(ids.condition).innerText=cond;
+        document.getElementById(ids.temp).innerText = temp;
+        document.getElementById(ids.feels).innerText = feels;
+        document.getElementById(ids.precip).innerText = precip;
+        document.getElementById(ids.wind).innerText = wind;
+        document.getElementById(ids.humidity).innerText = humidity;
+        document.getElementById(ids.sun).innerText = sun;
+        document.getElementById(ids.uv).innerText = "UV " + uv;
+        document.getElementById(ids.condition).innerText = cond;
 
+        const card = document.getElementById(ids.card);
         if(cond.toLowerCase().includes("rain")) card.style.background="#00a4e450";
         else if(cond.toLowerCase().includes("cloud")) card.style.background="#fbb03420";
         else if(cond.toLowerCase().includes("sun")||cond.toLowerCase().includes("clear")) card.style.background="#fbb03440";
@@ -36,11 +28,12 @@ async function getWeather(location, ids){
     } catch(err){console.error(err);}
 }
 
+// Grafieken per uur
 async function createHourlyChart(location, canvasId){
     try{
         const data = await fetch(`https://wttr.in/${location}?format=%H:%t:%p:%w`).then(r=>r.text());
         const lines = data.split("\n");
-        const labels=[], tempData=[], precipData=[], windData=[];
+        const labels = [], tempData=[], precipData=[], windData=[];
         lines.forEach(line=>{
             const parts=line.split(":");
             if(parts.length>=4){
@@ -75,19 +68,18 @@ async function createHourlyChart(location, canvasId){
     } catch(err){console.error(err);}
 }
 
-// Loop door alle steden
-cities.forEach(city=>{
-    const ids = {
-        temp:city.id+'-temp',
-        feels:city.id+'-feelslike',
-        precip:city.id+'-precip',
-        wind:city.id+'-wind',
-        humidity:city.id+'-humidity',
-        sun:city.id+'-sun',
-        uv:city.id+'-uv',
-        condition:city.id+'-condition',
-        card:city.id+'-card'
-    };
-    getWeather(city.query, ids);
-    createHourlyChart(city.query, city.id+'Chart');
+// Den Haag
+getWeather('Den+Haag',{
+    temp:'denhaag-temp', feels:'denhaag-feelslike', precip:'denhaag-precip',
+    wind:'denhaag-wind', humidity:'denhaag-humidity', sun:'denhaag-sun',
+    uv:'denhaag-uv', condition:'denhaag-condition', card:'denhaag-card'
 });
+createHourlyChart('Den+Haag','denhaagChart');
+
+// Pijnacker
+getWeather('Pijnacker',{
+    temp:'pijnacker-temp', feels:'pijnacker-feelslike', precip:'pijnacker-precip',
+    wind:'pijnacker-wind', humidity:'pijnacker-humidity', sun:'pijnacker-sun',
+    uv:'pijnacker-uv', condition:'pijnacker-condition', card:'pijnacker-card'
+});
+createHourlyChart('Pijnacker','pijnackerChart');
