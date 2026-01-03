@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>WeatherNomad Dashboard</title>
 <link rel="stylesheet" href="css/style.css">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
 <header>
@@ -15,42 +16,71 @@
 <main>
     <div class="weather-container">
 
-        <!-- Den Haag -->
-        <div class="weather-card">
+        <!-- Herhaal deze card voor elke stad -->
+        <div class="weather-card" id="denhaag-card">
             <h2>Den Haag</h2>
-            <iframe src="https://wttr.in/Den+Haag?format=3&lang=nl" class="weather-iframe"></iframe>
-            <iframe src="https://wttr.in/Den+Haag?format=%t+%f+%w+%p+%h+%C&lang=nl" class="weather-iframe"></iframe>
+            <div class="condition" id="denhaag-condition">--</div>
+            <div class="weather-graphical" id="denhaag-graphical"></div>
         </div>
 
-        <!-- Pijnacker -->
-        <div class="weather-card">
+        <div class="weather-card" id="pijnacker-card">
             <h2>Pijnacker</h2>
-            <iframe src="https://wttr.in/Pijnacker?format=3&lang=nl" class="weather-iframe"></iframe>
-            <iframe src="https://wttr.in/Pijnacker?format=%t+%f+%w+%p+%h+%C&lang=nl" class="weather-iframe"></iframe>
+            <div class="condition" id="pijnacker-condition">--</div>
+            <div class="weather-graphical" id="pijnacker-graphical"></div>
         </div>
 
-        <!-- Delft -->
-        <div class="weather-card">
+        <div class="weather-card" id="delft-card">
             <h2>Delft</h2>
-            <iframe src="https://wttr.in/Delft?format=3&lang=nl" class="weather-iframe"></iframe>
-            <iframe src="https://wttr.in/Delft?format=%t+%f+%w+%p+%h+%C&lang=nl" class="weather-iframe"></iframe>
+            <div class="condition" id="delft-condition">--</div>
+            <div class="weather-graphical" id="delft-graphical"></div>
         </div>
 
-        <!-- Schiphol Airport -->
-        <div class="weather-card">
+        <div class="weather-card" id="rijswijk-card">
+            <h2>Rijswijk</h2>
+            <div class="condition" id="rijswijk-condition">--</div>
+            <div class="weather-graphical" id="rijswijk-graphical"></div>
+        </div>
+
+        <div class="weather-card" id="schiphol-card">
             <h2>Schiphol Airport</h2>
-            <iframe src="https://wttr.in/Schiphol?format=3&lang=nl" class="weather-iframe"></iframe>
-            <iframe src="https://wttr.in/Schiphol?format=%t+%f+%w+%p+%h+%C&lang=nl" class="weather-iframe"></iframe>
+            <div class="condition" id="schiphol-condition">--</div>
+            <div class="weather-graphical" id="schiphol-graphical"></div>
         </div>
 
-        <!-- Rotterdam Airport -->
-        <div class="weather-card">
+        <div class="weather-card" id="rotterdam-card">
             <h2>Rotterdam Airport</h2>
-            <iframe src="https://wttr.in/Rotterdam?format=3&lang=nl" class="weather-iframe"></iframe>
-            <iframe src="https://wttr.in/Rotterdam?format=%t+%f+%w+%p+%h+%C&lang=nl" class="weather-iframe"></iframe>
+            <div class="condition" id="rotterdam-condition">--</div>
+            <div class="weather-graphical" id="rotterdam-graphical"></div>
         </div>
 
     </div>
+
+    <!-- Grafieken -->
+    <div class="chart-container">
+        <h2>Den Haag - Uur per uur</h2>
+        <canvas id="denhaagChart"></canvas>
+    </div>
+    <div class="chart-container">
+        <h2>Pijnacker - Uur per uur</h2>
+        <canvas id="pijnackerChart"></canvas>
+    </div>
+    <div class="chart-container">
+        <h2>Delft - Uur per uur</h2>
+        <canvas id="delftChart"></canvas>
+    </div>
+    <div class="chart-container">
+        <h2>Rijswijk - Uur per uur</h2>
+        <canvas id="rijswijkChart"></canvas>
+    </div>
+    <div class="chart-container">
+        <h2>Schiphol Airport - Uur per uur</h2>
+        <canvas id="schipholChart"></canvas>
+    </div>
+    <div class="chart-container">
+        <h2>Rotterdam Airport - Uur per uur</h2>
+        <canvas id="rotterdamChart"></canvas>
+    </div>
+
 </main>
 
 <script src="js/script.js"></script>
