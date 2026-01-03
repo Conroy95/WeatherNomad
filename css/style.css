@@ -18,7 +18,7 @@ header {
 }
 
 header .logo {
-    width: 180px;
+    width: 280px;
     height: auto;
 }
 
@@ -126,5 +126,9 @@ h1 {
     }
     .icon-block {
         width: 80px;
+    }
+    header .logo {
+    width: 180px;
+    height: auto;
     }
 }
