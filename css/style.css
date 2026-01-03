@@ -34,50 +34,80 @@ h1 {
 .weather-card {
     background: white;
     border-radius: 12px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.15);
     padding: 1rem;
-    width: 350px;
+    width: 380px;
     text-align: center;
+    transition: transform 0.3s;
+}
+
+.weather-card:hover {
+    transform: translateY(-5px);
 }
 
 .weather-card h2 {
     margin-top: 0;
     color: #00a4e4;
+    margin-bottom: 1rem;
 }
 
 .weather-graphical {
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-around;
-    align-items: center;
-    margin-top: 1rem;
+    gap: 0.8rem;
 }
 
-.weather-graphical div {
+.icon-block {
     display: flex;
     flex-direction: column;
     align-items: center;
     background: #fbb03410;
     border-radius: 10px;
-    padding: 0.5rem 0.7rem;
-    width: 80px;
+    padding: 0.7rem;
+    width: 100px;
+    transition: background 0.3s;
 }
 
-.weather-graphical img {
+.icon-block:hover {
+    background: #fbb03430;
+}
+
+.icon-block img {
     width: 40px;
     height: 40px;
     margin-bottom: 0.3rem;
 }
 
-.weather-graphical span {
+.icon-block span {
     font-weight: bold;
     font-size: 1.1rem;
     color: #00a4e4;
+    margin-bottom: 0.3rem;
+}
+
+.meter {
+    width: 80%;
+    height: 8px;
+    background: #00a4e420;
+    border-radius: 5px;
+}
+
+.meter div {
+    height: 100%;
+    border-radius: 5px;
+    background: #00a4e4;
+    width: 0%;
+    transition: width 1s;
 }
 
 /* Responsive */
-@media (max-width: 700px) {
+@media (max-width: 800px) {
     .weather-container {
         flex-direction: column;
         align-items: center;
+    }
+    .icon-block {
+        width: 80px;
     }
 }
