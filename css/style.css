@@ -10,6 +10,7 @@ header {
     color: white;
     padding: 1rem;
     text-align: center;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
 }
 
 header .logo {
@@ -33,22 +34,30 @@ h1 {
 
 .weather-card {
     background: white;
-    border-radius: 12px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+    border-radius: 15px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
     padding: 1rem;
-    width: 380px;
+    width: 420px;
     text-align: center;
-    transition: transform 0.3s;
+    transition: transform 0.3s, box-shadow 0.3s;
 }
 
 .weather-card:hover {
     transform: translateY(-5px);
+    box-shadow: 0 12px 25px rgba(0,0,0,0.25);
 }
 
 .weather-card h2 {
     margin-top: 0;
     color: #00a4e4;
+    margin-bottom: 0.5rem;
+}
+
+.condition {
+    font-size: 1.2rem;
+    font-weight: bold;
     margin-bottom: 1rem;
+    color: #fbb034;
 }
 
 .weather-graphical {
@@ -63,7 +72,7 @@ h1 {
     flex-direction: column;
     align-items: center;
     background: #fbb03410;
-    border-radius: 10px;
+    border-radius: 12px;
     padding: 0.7rem;
     width: 100px;
     transition: background 0.3s;
@@ -102,12 +111,12 @@ h1 {
 }
 
 /* Responsive */
-@media (max-width: 800px) {
+@media (max-width: 900px) {
     .weather-container {
         flex-direction: column;
         align-items: center;
     }
     .icon-block {
-        width: 80px;
+        width: 90px;
     }
 }
