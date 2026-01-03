@@ -1,85 +1,79 @@
-// Weer data voor meters
-async function getWeather(location, ids) {
-    try {
-        const temp = await fetch(`https://wttr.in/${location}?format=%t`).then(r=>r.text());
-        const feels = await fetch(`https://wttr.in/${location}?format=%f`).then(r=>r.text());
-        const precip = await fetch(`https://wttr.in/${location}?format=%p`).then(r=>r.text());
-        const wind = await fetch(`https://wttr.in/${location}?format=%w`).then(r=>r.text());
-        const humidity = await fetch(`https://wttr.in/${location}?format=%h`).then(r=>r.text());
-        const sun = await fetch(`https://wttr.in/${location}?format=%S+%s`).then(r=>r.text());
-        const uv = await fetch(`https://wttr.in/${location}?format=%U`).then(r=>r.text());
-        const cond = await fetch(`https://wttr.in/${location}?format=%C`).then(r=>r.text());
+const locations = [
+    {name:'Den+Haag', card:'denhaag-card', condition:'denhaag-condition', graphical:'denhaag-graphical'},
+    {name:'Pijnacker', card:'pijnacker-card', condition:'pijnacker-condition', graphical:'pijnacker-graphical'},
+    {name:'Delft', card:'delft-card', condition:'delft-condition', graphical:'delft-graphical'},
+    {name:'Rijswijk', card:'rijswijk-card', condition:'rijswijk-condition', graphical:'rijswijk-graphical'},
+    {name:'Schiphol', card:'schiphol-card', condition:'schiphol-condition', graphical:'schiphol-graphical'},
+    {name:'Rotterdam', card:'rotterdam-card', condition:'rotterdam-condition', graphical:'rotterdam-graphical'}
+];
 
-        document.getElementById(ids.temp).innerText = temp;
-        document.getElementById(ids.feels).innerText = feels;
-        document.getElementById(ids.precip).innerText = precip;
-        document.getElementById(ids.wind).innerText = wind;
-        document.getElementById(ids.humidity).innerText = humidity;
-        document.getElementById(ids.sun).innerText = sun;
-        document.getElementById(ids.uv).innerText = "UV " + uv;
-        document.getElementById(ids.condition).innerText = cond;
+async function createWeatherCard(location){
+    const {name, card, condition, graphical} = location;
 
-        const card = document.getElementById(ids.card);
-        if(cond.toLowerCase().includes("rain")) card.style.background="#00a4e450";
-        else if(cond.toLowerCase().includes("cloud")) card.style.background="#fbb03420";
-        else if(cond.toLowerCase().includes("sun")||cond.toLowerCase().includes("clear")) card.style.background="#fbb03440";
-        else card.style.background="#f0f4f820";
-
-    } catch(err){console.error(err);}
-}
-
-// Grafieken per uur
-async function createHourlyChart(location, canvasId){
     try{
-        const data = await fetch(`https://wttr.in/${location}?format=%H:%t:%p:%w`).then(r=>r.text());
-        const lines = data.split("\n");
-        const labels = [], tempData=[], precipData=[], windData=[];
-        lines.forEach(line=>{
-            const parts=line.split(":");
-            if(parts.length>=4){
-                labels.push(parts[0]);
-                tempData.push(parseInt(parts[1]));
-                precipData.push(parseFloat(parts[2]));
-                windData.push(parseInt(parts[3]));
-            }
-        });
-        const ctx = document.getElementById(canvasId).getContext('2d');
-        new Chart(ctx,{
-            type:'line',
-            data:{
-                labels:labels,
-                datasets:[
-                    {label:'Temp (°C)', data:tempData, borderColor:'#00a4e4', backgroundColor:'#00a4e450', yAxisID:'y1'},
-                    {label:'Precip (mm)', data:precipData, borderColor:'#fbb034', backgroundColor:'#fbb03450', yAxisID:'y2'},
-                    {label:'Wind (km/h)', data:windData, borderColor:'#00a4e4', backgroundColor:'#00a4e430', yAxisID:'y3'}
-                ]
-            },
-            options:{
-                responsive:true,
-                interaction:{mode:'index', intersect:false},
-                stacked:false,
-                scales:{
-                    y1:{type:'linear', position:'left', title:{display:true,text:'Temp °C'}},
-                    y2:{type:'linear', position:'right', title:{display:true,text:'Precip mm'}, grid:{drawOnChartArea:false}},
-                    y3:{type:'linear', position:'right', title:{display:true,text:'Wind km/h'}, grid:{drawOnChartArea:false}}
-                }
-            }
-        });
-    } catch(err){console.error(err);}
+        const cardEl = document.getElementById(card);
+        const condText = await fetch(`https://wttr.in/${name}?format=%C`).then(r=>r.text());
+        document.getElementById(condition).innerText = condText;
+
+        const temp = await fetch(`https://wttr.in/${name}?format=%t`).then(r=>r.text());
+        const feels = await fetch(`https://wttr.in/${name}?format=%f`).then(r=>r.text());
+        const precip = await fetch(`https://wttr.in/${name}?format=%p`).then(r=>r.text());
+        const wind = await fetch(`https://wttr.in/${name}?format=%w`).then(r=>r.text());
+        const humidity = await fetch(`https://wttr.in/${name}?format=%h`).then(r=>r.text());
+        const sun = await fetch(`https://wttr.in/${name}?format=%S+%s`).then(r=>r.text());
+        const uv = await fetch(`https://wttr.in/${name}?format=%U`).then(r=>r.text());
+
+        // Maak grafische meters
+        const html = `
+        <div class="icon-block">
+            <img src="https://img.icons8.com/fluency/48/000000/temperature.png"/>
+            <span>${temp}</span>
+            <div class="meter"><div style="width:${parseInt(temp)||0*4}%"></div></div>
+        </div>
+        <div class="icon-block">
+            <img src="https://img.icons8.com/fluency/48/000000/thermometer.png"/>
+            <span>${feels}</span>
+            <div class="meter"><div style="width:${parseInt(feels)||0*4}%"></div></div>
+        </div>
+        <div class="icon-block">
+            <img src="https://img.icons8.com/fluency/48/000000/rain.png"/>
+            <span>${precip}</span>
+            <div class="meter"><div style="width:${parseFloat(precip)||0*5}%"></div></div>
+        </div>
+        <div class="icon-block">
+            <img src="https://img.icons8.com/fluency/48/000000/wind.png"/>
+            <span>${wind}</span>
+            <div class="meter"><div style="width:${parseInt(wind)||0}%"></div></div>
+        </div>
+        <div class="icon-block">
+            <img src="https://img.icons8.com/fluency/48/000000/humidity.png"/>
+            <span>${humidity}</span>
+            <div class="meter"><div style="width:${parseInt(humidity)||0}%"></div></div>
+        </div>
+        <div class="icon-block">
+            <img src="https://img.icons8.com/fluency/48/000000/sun.png"/>
+            <span>${sun}</span>
+        </div>
+        <div class="icon-block">
+            <img src="https://img.icons8.com/fluency/48/000000/sun.png"/>
+            <span>UV ${uv}</span>
+        </div>
+        `;
+        document.getElementById(graphical).innerHTML = html;
+
+        // Achtergrondkleur kaart op basis van weer
+        if(condText.toLowerCase().includes("rain")){
+            cardEl.style.background = "#00a4e450";
+        } else if(condText.toLowerCase().includes("cloud")){
+            cardEl.style.background = "#fbb03420";
+        } else if(condText.toLowerCase().includes("sun") || condText.toLowerCase().includes("clear")){
+            cardEl.style.background = "#fbb03440";
+        } else {
+            cardEl.style.background = "#f0f4f820";
+        }
+
+    }catch(err){console.error(err);}
 }
 
-// Den Haag
-getWeather('Den+Haag',{
-    temp:'denhaag-temp', feels:'denhaag-feelslike', precip:'denhaag-precip',
-    wind:'denhaag-wind', humidity:'denhaag-humidity', sun:'denhaag-sun',
-    uv:'denhaag-uv', condition:'denhaag-condition', card:'denhaag-card'
-});
-createHourlyChart('Den+Haag','denhaagChart');
-
-// Pijnacker
-getWeather('Pijnacker',{
-    temp:'pijnacker-temp', feels:'pijnacker-feelslike', precip:'pijnacker-precip',
-    wind:'pijnacker-wind', humidity:'pijnacker-humidity', sun:'pijnacker-sun',
-    uv:'pijnacker-uv', condition:'pijnacker-condition', card:'pijnacker-card'
-});
-createHourlyChart('Pijnacker','pijnackerChart');
+// Laad alle locaties
+locations.forEach(loc=>createWeatherCard(loc));
