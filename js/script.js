@@ -1,33 +1,40 @@
-const apiKey = "JOUW_API_KEY_HIER";
+const apiKey = "VUL_HIER_JE_API_KEY_IN"; // OpenWeatherMap API key
+const refreshTime = 60000; // 60 seconden
 
 const cities = {
-    denhaag: "Den Haag,NL",
-    pijnacker: "Pijnacker,NL"
+    denhaag: { name: "Den Haag", lat: 52.0705, lon: 4.3007 },
+    pijnacker: { name: "Pijnacker", lat: 52.0195, lon: 4.4297 }
 };
 
-async function getWeather(city, elementId) {
-    const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&lang=nl&appid=${apiKey}`;
-    
+async function getWeather(cityId, lat, lon) {
+    const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&lang=nl&appid=${apiKey}`;
+
     try {
         const response = await fetch(url);
         const data = await response.json();
 
-        document.querySelector(`#${elementId} .temp`)
-            .innerText = `${Math.round(data.main.temp)} °C`;
+        document.querySelector(`#${cityId} .temp`).innerText =
+            Math.round(data.main.temp) + " °C";
 
-        document.querySelector(`#${elementId} .desc`)
-            .innerText = data.weather[0].description;
+        document.querySelector(`#${cityId} .desc`).innerText =
+            data.weather[0].description;
+
+        document.querySelector(`#${cityId} .extra`).innerText =
+            `Wind: ${data.wind.speed} m/s | Luchtvochtigheid: ${data.main.humidity}%`;
+
     } catch (error) {
-        document.querySelector(`#${elementId} .desc`)
-            .innerText = "Fout bij laden";
+        console.error("Fout bij ophalen weerdata:", error);
     }
 }
 
-getWeather(cities.denhaag, "denhaag");
-getWeather(cities.pijnacker, "pijnacker");
+function updateWeather() {
+    for (const city in cities) {
+        getWeather(city, cities[city].lat, cities[city].lon);
+    }
+}
 
-// Live update elke 5 minuten
-setInterval(() => {
-    getWeather(cities.denhaag, "denhaag");
-    getWeather(cities.pijnacker, "pijnacker");
-}, 300000);
+// Eerste keer laden
+updateWeather();
+
+// Live volgen (automatisch verversen)
+setInterval(updateWeather, refreshTime);
