@@ -60,6 +60,12 @@ footer {
     color: #000;
 }
 
+.extra-info {
+    margin-top: 10px;
+    font-size: 14px;
+    color: #333;
+}
+
 /* Mobile */
 @media (max-width: 600px) {
     .weather-card {
