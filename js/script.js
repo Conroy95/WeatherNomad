@@ -12,56 +12,60 @@ async function createWeatherCard(location){
 
     try{
         const cardEl = document.getElementById(card);
+
+        // Conditie
         const condText = await fetch(`https://wttr.in/${name}?format=%C`).then(r=>r.text());
         document.getElementById(condition).innerText = condText;
 
+        // Data
         const temp = await fetch(`https://wttr.in/${name}?format=%t`).then(r=>r.text());
         const feels = await fetch(`https://wttr.in/${name}?format=%f`).then(r=>r.text());
         const precip = await fetch(`https://wttr.in/${name}?format=%p`).then(r=>r.text());
         const wind = await fetch(`https://wttr.in/${name}?format=%w`).then(r=>r.text());
         const humidity = await fetch(`https://wttr.in/${name}?format=%h`).then(r=>r.text());
         const sun = await fetch(`https://wttr.in/${name}?format=%S+%s`).then(r=>r.text());
-        const uv = await fetch(`https://wttr.in/${name}?format=%U`).then(r=>r.text());
 
-        // Maak grafische meters
         const html = `
         <div class="icon-block">
             <img src="https://img.icons8.com/fluency/48/000000/temperature.png"/>
             <span>${temp}</span>
+            <div class="icon-label">Temperatuur</div>
             <div class="meter"><div style="width:${parseInt(temp)||0*4}%"></div></div>
         </div>
         <div class="icon-block">
             <img src="https://img.icons8.com/fluency/48/000000/thermometer.png"/>
             <span>${feels}</span>
+            <div class="icon-label">Voelt als</div>
             <div class="meter"><div style="width:${parseInt(feels)||0*4}%"></div></div>
         </div>
         <div class="icon-block">
             <img src="https://img.icons8.com/fluency/48/000000/rain.png"/>
             <span>${precip}</span>
+            <div class="icon-label">Neerslag</div>
             <div class="meter"><div style="width:${parseFloat(precip)||0*5}%"></div></div>
         </div>
         <div class="icon-block">
             <img src="https://img.icons8.com/fluency/48/000000/wind.png"/>
             <span>${wind}</span>
+            <div class="icon-label">Wind</div>
             <div class="meter"><div style="width:${parseInt(wind)||0}%"></div></div>
         </div>
         <div class="icon-block">
             <img src="https://img.icons8.com/fluency/48/000000/humidity.png"/>
             <span>${humidity}</span>
+            <div class="icon-label">Luchtvochtigheid</div>
             <div class="meter"><div style="width:${parseInt(humidity)||0}%"></div></div>
         </div>
         <div class="icon-block">
             <img src="https://img.icons8.com/fluency/48/000000/sun.png"/>
             <span>${sun}</span>
-        </div>
-        <div class="icon-block">
-            <img src="https://img.icons8.com/fluency/48/000000/sun.png"/>
-            <span>UV ${uv}</span>
+            <div class="icon-label">Zon op/onder</div>
         </div>
         `;
+
         document.getElementById(graphical).innerHTML = html;
 
-        // Achtergrondkleur kaart op basis van weer
+        // Achtergrond kleur
         if(condText.toLowerCase().includes("rain")){
             cardEl.style.background = "#00a4e450";
         } else if(condText.toLowerCase().includes("cloud")){
@@ -75,5 +79,4 @@ async function createWeatherCard(location){
     }catch(err){console.error(err);}
 }
 
-// Laad alle locaties
 locations.forEach(loc=>createWeatherCard(loc));
