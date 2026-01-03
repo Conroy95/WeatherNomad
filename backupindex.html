@@ -1,47 +1,77 @@
-<!DOCTYPE html>
-<html lang="nl">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WeatherNomad</title>
-    <link rel="stylesheet" href="css/style.css">
-</head>
-<body>
+const locations = [
+    {name:"Den+Haag", ids:"denhaag"},
+    {name:"Pijnacker", ids:"pijnacker"},
+    {name:"Delft", ids:"delft"},
+    {name:"Schiphol", ids:"schiphol"},
+    {name:"Rotterdam", ids:"rotterdam"}
+];
 
-<header>
-    <img src="assets/logo.png" alt="WeatherNomad logo">
-    <h1>WeatherNomad</h1>
-    <p>Live weer – Den Haag & Pijnacker</p>
-</header>
+const icons = {
+    temp:"https://img.icons8.com/fluency/48/000000/temperature.png",
+    feels:"https://img.icons8.com/fluency/48/000000/thermometer.png",
+    minmax:"https://img.icons8.com/fluency/48/000000/thermometer.png",
+    precip:"https://img.icons8.com/fluency/48/000000/rain.png",
+    snow:"https://img.icons8.com/fluency/48/000000/snow.png",
+    wind:"https://img.icons8.com/fluency/48/000000/wind.png",
+    humidity:"https://img.icons8.com/fluency/48/000000/humidity.png",
+    sun:"https://img.icons8.com/fluency/48/000000/sun.png",
+    uv:"https://img.icons8.com/fluency/48/000000/sun.png",
+    pressure:"https://img.icons8.com/fluency/48/000000/barometer-gauge.png",
+    chancerain:"https://img.icons8.com/fluency/48/000000/rain-cloud.png",
+    chancesnow:"https://img.icons8.com/fluency/48/000000/snow-cloud.png"
+};
 
-<main>
-    <!-- Den Haag -->
-    <section class="weather-card">
-        <h2>Den Haag</h2>
-        <iframe 
-            src="https://wttr.in/Den+Haag?0T" 
-            frameborder="0" 
-            loading="lazy"
-            title="Den Haag weer">
-        </iframe>
-    </section>
+async function getWeather(location, idPrefix){
+    const container = document.getElementById(idPrefix+"-graphical");
+    container.innerHTML = ""; // clear previous
 
-    <!-- Pijnacker -->
-    <section class="weather-card">
-        <h2>Pijnacker</h2>
-        <iframe 
-            src="https://wttr.in/Pijnacker?0T" 
-            frameborder="0" 
-            loading="lazy"
-            title="Pijnacker weer">
-        </iframe>
-    </section>
-</main>
+    try{
+        const temp = await fetch(`https://wttr.in/${location}?format=%t`).then(r=>r.text());
+        const feels = await fetch(`https://wttr.in/${location}?format=%f`).then(r=>r.text());
+        const minmax = await fetch(`https://wttr.in/${location}?format=%m+%M`).then(r=>r.text());
+        const precip = await fetch(`https://wttr.in/${location}?format=%p`).then(r=>r.text());
+        const snow = await fetch(`https://wttr.in/${location}?format=%P`).then(r=>r.text());
+        const wind = await fetch(`https://wttr.in/${location}?format=%w`).then(r=>r.text());
+        const humidity = await fetch(`https://wttr.in/${location}?format=%h`).then(r=>r.text());
+        const sun = await fetch(`https://wttr.in/${location}?format=%S+%s`).then(r=>r.text());
+        const uv = await fetch(`https://wttr.in/${location}?format=%U`).then(r=>r.text());
+        const cond = await fetch(`https://wttr.in/${location}?format=%C`).then(r=>r.text());
+        const pressure = await fetch(`https://wttr.in/${location}?format=%P`).then(r=>r.text());
 
-<footer>
-    <p>Live weer via <a href="https://wttr.in" target="_blank" style="color:#000;">wttr.in</a></p>
-</footer>
+        // update condition text
+        document.getElementById(idPrefix+"-condition").innerText = cond;
 
-<script src="js/script.js"></script>
-</body>
-</html>
+        const blocks = [
+            {icon:icons.temp,text:`${temp}`},
+            {icon:icons.feels,text:`Voelt als ${feels}`},
+            {icon:icons.minmax,text:`Min ${minmax.split(" ")[0]} / Max ${minmax.split(" ")[1]}`},
+            {icon:icons.precip,text:`Neerslag ${precip}`},
+            {icon:icons.snow,text:`Sneeuw ${snow}`},
+            {icon:icons.wind,text:`Wind ${wind}`},
+            {icon:icons.humidity,text:`Luchtvochtigheid ${humidity}`},
+            {icon:icons.sun,text:`Zon op ${sun.split(" ")[0]} / Zon onder ${sun.split(" ")[1]}`},
+            {icon:icons.uv,text:`UV-index ${uv}`},
+            {icon:icons.pressure,text:`Druk ${pressure}`},
+        ];
+
+        blocks.forEach(b=>{
+            const div = document.createElement("div");
+            div.className="icon-block";
+            div.innerHTML = `<img src="${b.icon}"/><span>${b.text}</span>`;
+            container.appendChild(div);
+        });
+
+    }catch(err){console.error(err);}
+}
+
+// refresh all locations
+function refreshAll(){
+    locations.forEach(l=>{
+        getWeather(l.name,l.ids);
+    });
+}
+
+// load first keer
+refreshAll();
+// update realtime elke 10 minuten
+setInterval(refreshAll,600000);
