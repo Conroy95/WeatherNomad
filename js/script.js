@@ -9,15 +9,11 @@ const locations = [
 
 async function createWeatherCard(location){
     const {name, card, condition, graphical} = location;
-
     try{
         const cardEl = document.getElementById(card);
-
-        // Conditie
         const condText = await fetch(`https://wttr.in/${name}?format=%C`).then(r=>r.text());
         document.getElementById(condition).innerText = condText;
 
-        // Data
         const temp = await fetch(`https://wttr.in/${name}?format=%t`).then(r=>r.text());
         const feels = await fetch(`https://wttr.in/${name}?format=%f`).then(r=>r.text());
         const precip = await fetch(`https://wttr.in/${name}?format=%p`).then(r=>r.text());
@@ -65,7 +61,6 @@ async function createWeatherCard(location){
 
         document.getElementById(graphical).innerHTML = html;
 
-        // Achtergrond kleur
         if(condText.toLowerCase().includes("rain")){
             cardEl.style.background = "#00a4e450";
         } else if(condText.toLowerCase().includes("cloud")){
