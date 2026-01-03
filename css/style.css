@@ -125,7 +125,6 @@ h1 {
     color: #00a4e4;
 }
 
-/* Responsive */
 @media (max-width: 900px) {
     .weather-container {
         flex-direction: column;
