@@ -110,6 +110,21 @@ h1 {
     transition: width 1s;
 }
 
+.chart-container {
+    width: 90%;
+    max-width: 900px;
+    margin: 2rem auto;
+    background: white;
+    padding: 1rem;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+}
+
+.chart-container h2 {
+    text-align: center;
+    color: #00a4e4;
+}
+
 /* Responsive */
 @media (max-width: 900px) {
     .weather-container {
