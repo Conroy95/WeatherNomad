@@ -11,32 +11,29 @@
 <header>
     <img src="assets/logo.png" alt="WeatherNomad logo">
     <h1>WeatherNomad</h1>
-    <p>Live weer – zonder API</p>
+    <p>Live weer – Den Haag & Pijnacker</p>
 </header>
 
 <main>
-
-    <section class="weather-card">
+    <section class="weather-card" id="denhaag">
         <h2>Den Haag</h2>
-        <img 
-            src="https://cdn.buienradar.nl/images/forecast/forecast_rain_2759794.png"
-            alt="Neerslag Den Haag">
-        <p class="label">Neerslagverwachting</p>
+        <p class="temp">-- °C</p>
+        <p class="desc">---</p>
+        <p class="extra">---</p>
     </section>
 
-    <section class="weather-card">
+    <section class="weather-card" id="pijnacker">
         <h2>Pijnacker</h2>
-        <img 
-            src="https://cdn.buienradar.nl/images/forecast/forecast_rain_2758500.png"
-            alt="Neerslag Pijnacker">
-        <p class="label">Neerslagverwachting</p>
+        <p class="temp">-- °C</p>
+        <p class="desc">---</p>
+        <p class="extra">---</p>
     </section>
-
 </main>
 
 <footer>
-    <p>Live data via Buienradar (afbeeldingen)</p>
+    <p>Live weer via OpenWeatherMap</p>
 </footer>
 
+<script src="js/script.js"></script>
 </body>
 </html>
