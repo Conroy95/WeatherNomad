@@ -36,19 +36,19 @@ main {
     color: #000;
     border-radius: 12px;
     padding: 15px;
-    width: 320px;
+    width: 340px;
+    text-align: center;
     box-shadow: 0 4px 10px rgba(0,0,0,0.2);
 }
 
 .weather-card h2 {
-    text-align: center;
     color: #00a4e4;
     margin-bottom: 10px;
 }
 
-/* Widget netjes houden */
-.buienradar-widget {
+.weather-card img {
     width: 100%;
+    border-radius: 8px;
 }
 
 footer {
