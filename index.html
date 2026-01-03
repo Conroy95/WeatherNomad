@@ -1,133 +1,36 @@
 <!DOCTYPE html>
 <html lang="nl">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>WeatherNomad</title>
-  <style>
-    :root {
-      --primary: #00a4e4;
-      --secondary: #fbb034;
-      --bg: #f5f9fc;
-      --text: #1a1a1a;
-    }
-
-    * {
-      box-sizing: border-box;
-      font-family: Arial, Helvetica, sans-serif;
-    }
-
-    body {
-      margin: 0;
-      background: var(--bg);
-      color: var(--text);
-    }
-
-    header {
-      background: linear-gradient(135deg, var(--primary), var(--secondary));
-      color: white;
-      padding: 1.5rem;
-      text-align: center;
-    }
-
-    header h1 {
-      margin: 0;
-      font-size: 2rem;
-    }
-
-    main {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 1rem;
-      padding: 1rem;
-      max-width: 1000px;
-      margin: auto;
-    }
-
-    .weather-card {
-      background: white;
-      border-radius: 16px;
-      padding: 1.5rem;
-      box-shadow: 0 6px 20px rgba(0,0,0,0.08);
-      display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
-    }
-
-    .city {
-      font-size: 1.4rem;
-      font-weight: bold;
-      color: var(--primary);
-    }
-
-    .temp {
-      font-size: 2.5rem;
-      font-weight: bold;
-      color: var(--secondary);
-    }
-
-    .details {
-      font-size: 0.95rem;
-    }
-
-    footer {
-      text-align: center;
-      padding: 1rem;
-      font-size: 0.85rem;
-      color: #555;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WeatherNomad</title>
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
-  <header>
-    <h1>🌤️ WeatherNomad</h1>
-    <p>Betrouwbare weersinformatie voor onderweg</p>
-  </header>
+<header>
+    <h1>🌦 WeatherNomad</h1>
+    <p>Live weerinformatie</p>
+</header>
 
-  <main>
+<main class="weather-container">
     <div class="weather-card" id="denhaag">
-      <div class="city">Den Haag</div>
-      <div class="temp" id="temp-denhaag">--°C</div>
-      <div class="details" id="details-denhaag">Laden...</div>
+        <h2>Den Haag</h2>
+        <p class="temp">-- °C</p>
+        <p class="desc">Laden...</p>
     </div>
 
     <div class="weather-card" id="pijnacker">
-      <div class="city">Pijnacker</div>
-      <div class="temp" id="temp-pijnacker">--°C</div>
-      <div class="details" id="details-pijnacker">Laden...</div>
+        <h2>Pijnacker</h2>
+        <p class="temp">-- °C</p>
+        <p class="desc">Laden...</p>
     </div>
-  </main>
+</main>
 
-  <footer>
-    © 2026 WeatherNomad · Desktop & mobiel vriendelijk
-  </footer>
+<footer>
+    <p>Live data via OpenWeatherMap</p>
+</footer>
 
-  <script>
-    // Demo data (kan later vervangen worden door een echte weer-API)
-    const weatherData = {
-      denhaag: {
-        temp: 18,
-        description: "Half bewolkt",
-        wind: "Wind: 4 Bft",
-        rain: "Neerslag: 10%"
-      },
-      pijnacker: {
-        temp: 17,
-        description: "Licht bewolkt",
-        wind: "Wind: 3 Bft",
-        rain: "Neerslag: 5%"
-      }
-    };
-
-    function renderWeather(city, data) {
-      document.getElementById(`temp-${city}`).innerText = `${data.temp}°C`;
-      document.getElementById(`details-${city}`).innerText = `${data.description} · ${data.wind} · ${data.rain}`;
-    }
-
-    renderWeather('denhaag', weatherData.denhaag);
-    renderWeather('pijnacker', weatherData.pijnacker);
-  </script>
-
+<script src="js/script.js"></script>
 </body>
 </html>
