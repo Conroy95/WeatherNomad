@@ -11,29 +11,32 @@
 <header>
     <img src="assets/logo.png" alt="WeatherNomad logo">
     <h1>WeatherNomad</h1>
-    <p>Live weer – Den Haag & Pijnacker</p>
+    <p>Live weer via iframe</p>
 </header>
 
 <main>
-    <section class="weather-card" id="denhaag">
+    <section class="weather-card">
         <h2>Den Haag</h2>
-        <p class="temp">-- °C</p>
-        <p class="desc">---</p>
-        <p class="extra">---</p>
+        <iframe 
+            src="https://wttr.in/Den+Haag?m&T" 
+            frameborder="0" 
+            loading="lazy">
+        </iframe>
     </section>
 
-    <section class="weather-card" id="pijnacker">
+    <section class="weather-card">
         <h2>Pijnacker</h2>
-        <p class="temp">-- °C</p>
-        <p class="desc">---</p>
-        <p class="extra">---</p>
+        <iframe 
+            src="https://wttr.in/Pijnacker?m&T" 
+            frameborder="0" 
+            loading="lazy">
+        </iframe>
     </section>
 </main>
 
 <footer>
-    <p>Live weer via OpenWeatherMap</p>
+    <p>Live weer via wttr.in</p>
 </footer>
 
-<script src="js/script.js"></script>
 </body>
 </html>
