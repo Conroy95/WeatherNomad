@@ -41,15 +41,14 @@ main {
 }
 
 .weather-card h2 {
+    text-align: center;
     color: #00a4e4;
     margin-bottom: 10px;
-    text-align: center;
 }
 
-iframe {
+/* Widget netjes houden */
+.buienradar-widget {
     width: 100%;
-    height: 260px;
-    border: none;
 }
 
 footer {
