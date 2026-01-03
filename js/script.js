@@ -10,83 +10,56 @@ const locations = [
 const container = document.getElementById('weather-container');
 
 async function fetchWeatherData(loc) {
-    const endpoints = {
-        cond: `https://wttr.in/${loc.name}?format=%C`,
-        temp: `https://wttr.in/${loc.name}?format=%t`,
-        feels: `https://wttr.in/${loc.name}?format=%f`,
-        precip: `https://wttr.in/${loc.name}?format=%p`,
-        wind: `https://wttr.in/${loc.name}?format=%w`,
-        humidity: `https://wttr.in/${loc.name}?format=%h`,
-        sun: `https://wttr.in/${loc.name}?format=%S+%s`
-    };
+    const [cond, temp, feels, precip, wind, humidity, sun] = await Promise.all([
+        fetch(`https://wttr.in/${loc.name}?format=%C`).then(r=>r.text()),
+        fetch(`https://wttr.in/${loc.name}?format=%t`).then(r=>r.text()),
+        fetch(`https://wttr.in/${loc.name}?format=%f`).then(r=>r.text()),
+        fetch(`https://wttr.in/${loc.name}?format=%p`).then(r=>r.text()),
+        fetch(`https://wttr.in/${loc.name}?format=%w`).then(r=>r.text()),
+        fetch(`https://wttr.in/${loc.name}?format=%h`).then(r=>r.text()),
+        fetch(`https://wttr.in/${loc.name}?format=%S+%s`).then(r=>r.text())
+    ]);
 
-    // Parallel fetches
-    const [cond,temp,feels,precip,wind,humidity,sun] = await Promise.all(
-        Object.values(endpoints).map(url => fetch(url).then(r => r.text()))
-    );
-
-    return {cond,temp,feels,precip,wind,humidity,sun};
+    return {cond, temp, feels, precip, wind, humidity, sun};
 }
 
-function createCardHTML(loc, data){
-    const bgColor = data.cond.toLowerCase().includes('rain') ? '#00a4e450' :
-                    data.cond.toLowerCase().includes('cloud') ? '#fbb03420' :
-                    data.cond.toLowerCase().includes('sun') || data.cond.toLowerCase().includes('clear') ? '#fbb03440' : '#f0f4f820';
+function createCardHTML(loc, data) {
+    // dynamische achtergrondkleur
+    let bg = '#ffffff';
+    const c = data.cond.toLowerCase();
+    if(c.includes('rain')) bg = '#00a4e450';
+    else if(c.includes('cloud')) bg = '#fbb03420';
+    else if(c.includes('sun') || c.includes('clear')) bg = '#fbb03440';
 
     return `
-    <div class="col-12 col-md-6 col-lg-4">
-        <div class="weather-card" style="background:${bgColor}">
-            <h2>${loc.display}</h2>
-            <div class="condition">${data.cond}</div>
-            <div class="weather-graphical">
-                <div class="icon-block">
-                    <img src="https://img.icons8.com/fluency/48/000000/temperature.png"/>
-                    <span>${data.temp}</span>
-                    <div class="icon-label">Temperatuur</div>
-                    <div class="meter"><div style="width:${parseInt(data.temp)||0*4}%"></div></div>
-                </div>
-                <div class="icon-block">
-                    <img src="https://img.icons8.com/fluency/48/000000/thermometer.png"/>
-                    <span>${data.feels}</span>
-                    <div class="icon-label">Voelt als</div>
-                    <div class="meter"><div style="width:${parseInt(data.feels)||0*4}%"></div></div>
-                </div>
-                <div class="icon-block">
-                    <img src="https://img.icons8.com/fluency/48/000000/rain.png"/>
-                    <span>${data.precip}</span>
-                    <div class="icon-label">Neerslag</div>
-                    <div class="meter"><div style="width:${parseFloat(data.precip)||0*5}%"></div></div>
-                </div>
-                <div class="icon-block">
-                    <img src="https://img.icons8.com/fluency/48/000000/wind.png"/>
-                    <span>${data.wind}</span>
-                    <div class="icon-label">Wind</div>
-                    <div class="meter"><div style="width:${parseInt(data.wind)||0}%"></div></div>
-                </div>
-                <div class="icon-block">
-                    <img src="https://img.icons8.com/fluency/48/000000/humidity.png"/>
-                    <span>${data.humidity}</span>
-                    <div class="icon-label">Luchtvochtigheid</div>
-                    <div class="meter"><div style="width:${parseInt(data.humidity)||0}%"></div></div>
-                </div>
-                <div class="icon-block">
-                    <img src="https://img.icons8.com/fluency/48/000000/sun.png"/>
-                    <span>${data.sun}</span>
-                    <div class="icon-label">Zon op/onder</div>
-                </div>
-            </div>
-        </div>
-    </div>
-    `;
-}
-
-async function loadWeather() {
-    const promises = locations.map(async loc => {
-        const data = await fetchWeatherData(loc);
-        container.insertAdjacentHTML('beforeend', createCardHTML(loc, data));
-    });
-    await Promise.all(promises);
-}
-
-// Start
-loadWeather();
+    <div class="col-sm-6 col-md-4 col-lg-3">
+      <div class="weather-card" style="background:${bg}">
+        <h5>${loc.display}</h5>
+        <div class="condition">${data.cond}</div>
+        <div class="d-flex flex-wrap justify-content-center">
+          <div class="icon-block">
+            <img src="https://img.icons8.com/fluency/48/000000/temperature.png"/>
+            <span>${data.temp}</span>
+            <div class="icon-label">Temperatuur</div>
+            <div class="meter"><div style="width:${parseInt(data.temp)||0*4}%"></div></div>
+          </div>
+          <div class="icon-block">
+            <img src="https://img.icons8.com/fluency/48/000000/thermometer.png"/>
+            <span>${data.feels}</span>
+            <div class="icon-label">Voelt als</div>
+            <div class="meter"><div style="width:${parseInt(data.feels)||0*4}%"></div></div>
+          </div>
+          <div class="icon-block">
+            <img src="https://img.icons8.com/fluency/48/000000/rain.png"/>
+            <span>${data.precip}</span>
+            <div class="icon-label">Neerslag</div>
+            <div class="meter"><div style="width:${parseFloat(data.precip)||0*5}%"></div></div>
+          </div>
+          <div class="icon-block">
+            <img src="https://img.icons8.com/fluency/48/000000/wind.png"/>
+            <span>${data.wind}</span>
+            <div class="icon-label">Wind</div>
+            <div class="meter"><div style="width:${parseInt(data.wind)||0}%"></div></div>
+          </div>
+          <div class="icon-block">
+            <img src="https://i
