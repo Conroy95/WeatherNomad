@@ -3,43 +3,45 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WeatherNomad</title>
+    <title>WeatherNomad Dashboard</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
+    <header>
+        <img src="assets/logo.png" alt="WeatherNomad Logo" class="logo">
+        <h1>WeatherNomad Dashboard</h1>
+    </header>
 
-<header>
-    <img src="assets/logo.png" alt="WeatherNomad logo">
-    <h1>WeatherNomad</h1>
-    <p>Live weer – Den Haag & Pijnacker</p>
-</header>
+    <main>
+        <div class="weather-container">
 
-<main>
-    <!-- Den Haag -->
-    <section class="weather-card">
-        <h2>Den Haag</h2>
-        <iframe src="https://wttr.in/Den+Haag?0T" frameborder="0" loading="lazy" title="Den Haag weer"></iframe>
-        <div class="extra-info" id="denhaag-extra">
-            <p>Regen: -- mm</p>
-            <p>Sneeuw: -- cm</p>
+            <!-- Den Haag -->
+            <div class="weather-card">
+                <h2>Den Haag</h2>
+                <iframe src="https://wttr.in/Den+Haag?format=%C+%t+%w+%p" 
+                        frameborder="0" 
+                        scrolling="no" 
+                        class="weather-iframe"></iframe>
+                <div class="extra-info">
+                    <p>Neerslag: <span id="denhaag-precip">Loading...</span></p>
+                </div>
+            </div>
+
+            <!-- Pijnacker -->
+            <div class="weather-card">
+                <h2>Pijnacker</h2>
+                <iframe src="https://wttr.in/Pijnacker?format=%C+%t+%w+%p" 
+                        frameborder="0" 
+                        scrolling="no" 
+                        class="weather-iframe"></iframe>
+                <div class="extra-info">
+                    <p>Neerslag: <span id="pijnacker-precip">Loading...</span></p>
+                </div>
+            </div>
+
         </div>
-    </section>
+    </main>
 
-    <!-- Pijnacker -->
-    <section class="weather-card">
-        <h2>Pijnacker</h2>
-        <iframe src="https://wttr.in/Pijnacker?0T" frameborder="0" loading="lazy" title="Pijnacker weer"></iframe>
-        <div class="extra-info" id="pijnacker-extra">
-            <p>Regen: -- mm</p>
-            <p>Sneeuw: -- cm</p>
-        </div>
-    </section>
-</main>
-
-<footer>
-    <p>Live weer via <a href="https://wttr.in" target="_blank" style="color:#000;">wttr.in</a></p>
-</footer>
-
-<script src="js/script.js"></script>
+    <script src="js/script.js"></script>
 </body>
 </html>
