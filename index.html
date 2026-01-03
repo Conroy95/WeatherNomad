@@ -1,121 +1,51 @@
 <!DOCTYPE html>
 <html lang="nl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WeatherNomad Dashboard</title>
-    <link rel="stylesheet" href="css/style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WeatherNomad Dashboard</title>
+<link rel="stylesheet" href="css/style.css">
+<!-- Chart.js CDN -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
-    <header>
-        <img src="assets/logo.png" alt="WeatherNomad Logo" class="logo">
-        <h1>WeatherNomad Dashboard</h1>
-    </header>
+<header>
+    <img src="assets/logo.png" alt="WeatherNomad Logo" class="logo">
+    <h1>WeatherNomad Dashboard</h1>
+</header>
 
-    <main>
-        <div class="weather-container">
+<main>
+    <div class="weather-container">
 
-            <!-- Den Haag -->
-            <div class="weather-card" id="denhaag-card">
-                <h2>Den Haag</h2>
-                <div class="condition" id="denhaag-condition">--</div>
-                <div class="weather-graphical">
-
-                    <div class="icon-block">
-                        <img src="https://img.icons8.com/fluency/48/000000/temperature.png"/>
-                        <span id="denhaag-temp">--°C</span>
-                        <div class="meter"><div id="denhaag-temp-meter"></div></div>
-                    </div>
-
-                    <div class="icon-block">
-                        <img src="https://img.icons8.com/fluency/48/000000/thermometer.png"/>
-                        <span id="denhaag-feelslike">--°C</span>
-                        <div class="meter"><div id="denhaag-feelslike-meter"></div></div>
-                    </div>
-
-                    <div class="icon-block">
-                        <img src="https://img.icons8.com/fluency/48/000000/rain.png"/>
-                        <span id="denhaag-precip">-- mm</span>
-                        <div class="meter"><div id="denhaag-precip-meter"></div></div>
-                    </div>
-
-                    <div class="icon-block">
-                        <img src="https://img.icons8.com/fluency/48/000000/wind.png"/>
-                        <span id="denhaag-wind">-- km/h</span>
-                        <div class="meter"><div id="denhaag-wind-meter"></div></div>
-                    </div>
-
-                    <div class="icon-block">
-                        <img src="https://img.icons8.com/fluency/48/000000/humidity.png"/>
-                        <span id="denhaag-humidity">--%</span>
-                        <div class="meter"><div id="denhaag-humidity-meter"></div></div>
-                    </div>
-
-                    <div class="icon-block">
-                        <img src="https://img.icons8.com/fluency/48/000000/sun.png"/>
-                        <span id="denhaag-sun">-- / --</span>
-                    </div>
-
-                    <div class="icon-block">
-                        <img src="https://img.icons8.com/fluency/48/000000/sun-uv-index.png"/>
-                        <span id="denhaag-uv">UV --</span>
-                    </div>
-
-                </div>
-            </div>
-
-            <!-- Pijnacker -->
-            <div class="weather-card" id="pijnacker-card">
-                <h2>Pijnacker</h2>
-                <div class="condition" id="pijnacker-condition">--</div>
-                <div class="weather-graphical">
-
-                    <div class="icon-block">
-                        <img src="https://img.icons8.com/fluency/48/000000/temperature.png"/>
-                        <span id="pijnacker-temp">--°C</span>
-                        <div class="meter"><div id="pijnacker-temp-meter"></div></div>
-                    </div>
-
-                    <div class="icon-block">
-                        <img src="https://img.icons8.com/fluency/48/000000/thermometer.png"/>
-                        <span id="pijnacker-feelslike">--°C</span>
-                        <div class="meter"><div id="pijnacker-feelslike-meter"></div></div>
-                    </div>
-
-                    <div class="icon-block">
-                        <img src="https://img.icons8.com/fluency/48/000000/rain.png"/>
-                        <span id="pijnacker-precip">-- mm</span>
-                        <div class="meter"><div id="pijnacker-precip-meter"></div></div>
-                    </div>
-
-                    <div class="icon-block">
-                        <img src="https://img.icons8.com/fluency/48/000000/wind.png"/>
-                        <span id="pijnacker-wind">-- km/h</span>
-                        <div class="meter"><div id="pijnacker-wind-meter"></div></div>
-                    </div>
-
-                    <div class="icon-block">
-                        <img src="https://img.icons8.com/fluency/48/000000/humidity.png"/>
-                        <span id="pijnacker-humidity">--%</span>
-                        <div class="meter"><div id="pijnacker-humidity-meter"></div></div>
-                    </div>
-
-                    <div class="icon-block">
-                        <img src="https://img.icons8.com/fluency/48/000000/sun.png"/>
-                        <span id="pijnacker-sun">-- / --</span>
-                    </div>
-
-                    <div class="icon-block">
-                        <img src="https://img.icons8.com/fluency/48/000000/sun-uv-index.png"/>
-                        <span id="pijnacker-uv">UV --</span>
-                    </div>
-
-                </div>
-            </div>
-
+        <!-- Den Haag kaart -->
+        <div class="weather-card" id="denhaag-card">
+            <h2>Den Haag</h2>
+            <div class="condition" id="denhaag-condition">--</div>
+            <div class="weather-graphical" id="denhaag-graphical"></div>
         </div>
-    </main>
 
-    <script src="js/script.js"></script>
+        <!-- Pijnacker kaart -->
+        <div class="weather-card" id="pijnacker-card">
+            <h2>Pijnacker</h2>
+            <div class="condition" id="pijnacker-condition">--</div>
+            <div class="weather-graphical" id="pijnacker-graphical"></div>
+        </div>
+
+    </div>
+
+    <!-- Grafieken per stad -->
+    <div class="chart-container">
+        <h2>Den Haag - Uur per uur</h2>
+        <canvas id="denhaagChart"></canvas>
+    </div>
+
+    <div class="chart-container">
+        <h2>Pijnacker - Uur per uur</h2>
+        <canvas id="pijnackerChart"></canvas>
+    </div>
+
+</main>
+
+<script src="js/script.js"></script>
 </body>
 </html>
