@@ -48,10 +48,11 @@ main {
 
 .weather-card iframe {
     width: 100%;
-    height: 400px;
+    height: 600px; /* Volledig zichtbaar */
     border-radius: 8px;
 }
 
+/* Footer */
 footer {
     text-align: center;
     padding: 10px;
@@ -59,13 +60,12 @@ footer {
     color: #000;
 }
 
-/* Mobile */
+/* Mobile responsiveness */
 @media (max-width: 600px) {
     .weather-card {
         width: 100%;
     }
-
     .weather-card iframe {
-        height: 300px;
+        height: 400px; /* Compacte mobiele view */
     }
 }
