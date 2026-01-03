@@ -11,30 +11,31 @@
 <header>
     <img src="assets/logo.png" alt="WeatherNomad logo">
     <h1>WeatherNomad</h1>
-    <p>Live weer via widgets</p>
+    <p>Live weer zonder API</p>
 </header>
 
 <main>
     <section class="weather-card">
         <h2>Den Haag</h2>
-        <iframe 
-            src="https://www.meteored.nl/widget/?id=312&lang=nl&units=metric"
-            loading="lazy">
-        </iframe>
+        <div class="buienradar-widget"
+             data-location-id="2759794">
+        </div>
     </section>
 
     <section class="weather-card">
         <h2>Pijnacker</h2>
-        <iframe 
-            src="https://www.meteored.nl/widget/?id=2064&lang=nl&units=metric"
-            loading="lazy">
-        </iframe>
+        <div class="buienradar-widget"
+             data-location-id="2758500">
+        </div>
     </section>
 </main>
 
 <footer>
-    <p>Live weerwidgets</p>
+    <p>Live data via Buienradar</p>
 </footer>
+
+<!-- Buienradar widget script -->
+<script src="https://cdn.buienradar.nl/widgets/br-widgets.min.js"></script>
 
 </body>
 </html>
