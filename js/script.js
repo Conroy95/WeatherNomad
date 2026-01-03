@@ -1,15 +1,28 @@
-// Functie om neerslag van wttr.in te halen
-async function getPrecip(location, elementId) {
+async function getWeather(location, tempId, precipId, windId) {
     try {
-        const response = await fetch(`https://wttr.in/${location}?format=%p`);
-        const data = await response.text();
-        document.getElementById(elementId).innerText = data;
+        // Temperatuur
+        const tempResponse = await fetch(`https://wttr.in/${location}?format=%t`);
+        const temp = await tempResponse.text();
+        document.getElementById(tempId).innerText = temp;
+
+        // Neerslag
+        const precipResponse = await fetch(`https://wttr.in/${location}?format=%p`);
+        const precip = await precipResponse.text();
+        document.getElementById(precipId).innerText = precip;
+
+        // Wind
+        const windResponse = await fetch(`https://wttr.in/${location}?format=%w`);
+        const wind = await windResponse.text();
+        document.getElementById(windId).innerText = wind;
+
     } catch (error) {
-        document.getElementById(elementId).innerText = 'Niet beschikbaar';
         console.error(error);
+        document.getElementById(tempId).innerText = '--';
+        document.getElementById(precipId).innerText = '--';
+        document.getElementById(windId).innerText = '--';
     }
 }
 
 // Haal data op bij laden
-getPrecip('Den+Haag', 'denhaag-precip');
-getPrecip('Pijnacker', 'pijnacker-precip');
+getWeather('Den+Haag', 'denhaag-temp', 'denhaag-precip', 'denhaag-wind');
+getWeather('Pijnacker', 'pijnacker-temp', 'pijnacker-precip', 'pijnacker-wind');
