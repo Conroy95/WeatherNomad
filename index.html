@@ -11,27 +11,29 @@
 <header>
     <img src="assets/logo.png" alt="WeatherNomad logo">
     <h1>WeatherNomad</h1>
-    <p>Live neerslag (zonder API)</p>
+    <p>Live weer via iframe</p>
 </header>
 
 <main>
     <section class="weather-card">
         <h2>Den Haag</h2>
-        <img 
-            src="https://cdn.buienradar.nl/images/forecast/forecast_rain_2759794.png"
-            alt="Neerslag Den Haag">
+        <iframe 
+            src="https://www.buienradar.nl/weer/den-haag/nl/2759794"
+            loading="lazy">
+        </iframe>
     </section>
 
     <section class="weather-card">
         <h2>Pijnacker</h2>
-        <img 
-            src="https://cdn.buienradar.nl/images/forecast/forecast_rain_2758500.png"
-            alt="Neerslag Pijnacker">
+        <iframe 
+            src="https://www.buienradar.nl/weer/pijnacker/nl/2758500"
+            loading="lazy">
+        </iframe>
     </section>
 </main>
 
 <footer>
-    <p>Live neerslag via Buienradar</p>
+    <p>Live weer via Buienradar</p>
 </footer>
 
 </body>
